@@ -4,8 +4,6 @@ A modern, user-friendly web application designed for students of United Internat
 
 This tool helps students track their academic progress, forecast their final CGPA based on current semester performance, and get actionable advice to improve their results.
 
-![UIU CGPA Calculator Screenshot](https://placehold.co/800x450/e2e8f0/4a5568?text=App+Screenshot+Here)
-
 ---
 
 ## ✨ Features
