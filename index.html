@@ -3,85 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UIU CGPA Calculator with AI Planner</title>
+    <title>UIU CGPA Calculator & AI Planner</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #f0f2f5;
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --accent-primary: #0d9488; /* Teal */
+            --accent-secondary: #f59e0b; /* Amber */
+            --border-color: rgba(209, 213, 219, 0.5);
+        }
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f0f4f8;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
         }
         .glass-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 1.25rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+            transition: all 0.3s ease;
+        }
+        .btn {
+            transition: all 0.3s ease;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
         }
         .btn-primary {
-            background-image: linear-gradient(to right, #4f46e5, #c026d3);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
+            background-color: var(--accent-primary);
+            color: white;
+            box-shadow: 0 4px 15px 0 rgba(13, 148, 136, 0.3);
         }
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 20px 0 rgba(116, 79, 168, 0.85);
+            transform: translateY(-2px);
+            background-color: #0f766e;
+            box-shadow: 0 6px 20px 0 rgba(13, 148, 136, 0.4);
         }
-        .btn-secondary {
-            background-image: linear-gradient(to right, #10b981, #3b82f6);
-             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px 0 rgba(22, 163, 74, 0.5);
+        .btn-danger {
+            background-color: #e11d48;
+            color: white;
         }
-        .btn-secondary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 20px 0 rgba(22, 163, 74, 0.6);
+        .btn-danger:hover {
+            background-color: #be123c;
         }
         .input-field {
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 1px solid transparent;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
             transition: all 0.3s ease;
+            border-radius: 0.75rem;
+            width: 100%;
+            padding: 0.65rem 1rem;
         }
         .input-field:focus {
             background-color: white;
-            border-color: #4f46e5;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
+            outline: none;
         }
         .final-cgpa-display {
-            width: 220px;
-            height: 220px;
+            width: 180px; height: 180px;
+        }
+        @media (min-width: 640px) {
+            .final-cgpa-display {
+                width: 200px; height: 200px;
+            }
+        }
+        .final-cgpa-display {
             border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-image: linear-gradient(145deg, #4f46e5, #7c3aed);
-            box-shadow: 0 10px 30px -10px rgba(79, 70, 229, 0.7);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background-image: linear-gradient(145deg, #14b8a6, #0d9488);
+            box-shadow: 0 10px 30px -10px rgba(13, 148, 136, 0.6);
             color: white;
-            position: relative;
         }
         .final-cgpa-display .cgpa-value {
-            font-size: 4.5rem;
-            font-weight: 800;
-            line-height: 1;
-            background: -webkit-linear-gradient(#ffffff, #e2e8f0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 3.75rem; font-weight: 800; line-height: 1;
             animation: pop-in 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
-        @keyframes pop-in {
-            0% { transform: scale(0.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+        @keyframes pop-in { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .final-cgpa-display .cgpa-label { font-weight: 500; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
+        
+        /* Tab Styles */
+        .tab-button {
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .final-cgpa-display .cgpa-label {
-            font-weight: 500;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: rgba(255, 255, 255, 0.8);
+        .tab-button.active {
+            color: var(--accent-primary);
+            border-bottom-color: var(--accent-primary);
         }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fade-in 0.5s ease; }
+        @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .retake-badge {
+            background-color: var(--accent-secondary);
+            color: white;
+            font-size: 0.7rem; font-weight: 600;
+            padding: 2px 8px; border-radius: 99px;
+            margin-left: 8px; vertical-align: middle;
+        }
+        .table-row:nth-child(even) { background-color: #fdfdff; }
+        
+        /* Modal Styles */
         .modal-backdrop {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.6);
@@ -94,139 +135,144 @@
         .modal-content {
             background: white; padding: 2rem; border-radius: 1rem;
             width: 90%;
-            transform: scale(0.9); transition: transform 0.3s ease;
+            transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        #alertModal .modal-content {
-             max-width: 500px;
-        }
-        /* --- FIX START: Styles for AI Modal --- */
-        #aiPlanModal .modal-content {
-            max-width: 42rem; /* Tailwind's max-w-2xl */
-            display: flex;
-            flex-direction: column;
-            max-height: 85vh; /* Prevent modal from being taller than the screen */
-        }
-        #aiPlanContent {
-            overflow-y: auto; /* Make the content area scrollable */
-            flex-grow: 1;
-        }
-        #closeAiModalBtn {
-            font-size: 2rem; /* Make close button bigger */
-            line-height: 1;
-            font-weight: bold;
-            padding: 0 0.5rem;
-            transition: transform 0.2s ease;
-        }
-        #closeAiModalBtn:hover {
-            transform: scale(1.1) rotate(90deg);
-        }
-        /* --- FIX END --- */
         .modal-backdrop.show .modal-content { transform: scale(1); }
-        .table-row:hover {
-            background-color: #f7f8ff;
-            transform: scale(1.02);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            z-index: 10;
-            position: relative;
-        }
         .spinner {
             border: 4px solid rgba(0, 0, 0, 0.1);
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            border-left-color: #4f46e5;
+            border-left-color: var(--accent-primary);
             animation: spin 1s ease infinite;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="min-h-screen p-4 sm:p-6 lg:p-8">
-    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100" style="z-index: -1;"></div>
-
     <main class="max-w-6xl w-full mx-auto">
-        <header class="text-center mb-10">
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-800">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">CGPA Calculator</span>
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-800">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">CGPA Calculator</span>
             </h1>
-            <p class="text-lg text-gray-600 mt-2 font-medium">United International University (UIU)</p>
+            <p class="text-md text-gray-500 mt-1">United International University (UIU)</p>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
             <!-- Left Column: Input Forms -->
-            <div class="lg:col-span-2 space-y-8">
-                <div class="glass-card p-6 lg:p-8">
-                    <h2 class="text-2xl font-bold text-gray-700 mb-4">Previous Records</h2>
-                    <div class="space-y-4">
+            <div class="lg:col-span-2 space-y-6">
+                <div class="glass-card p-6">
+                    <h2 class="text-xl font-bold text-gray-700 mb-4">Previous Records</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label for="existingCgpa" class="block text-sm font-medium text-gray-600 mb-1">Existing CGPA</label>
-                            <input type="number" id="existingCgpa" placeholder="e.g., 3.5" step="0.01" class="input-field w-full px-4 py-2 rounded-lg">
+                            <input type="number" id="existingCgpa" placeholder="e.g., 3.50" step="0.01" class="input-field">
                         </div>
                         <div>
                             <label for="existingCredits" class="block text-sm font-medium text-gray-600 mb-1">Credits Completed</label>
-                            <input type="number" id="existingCredits" placeholder="e.g., 90" step="0.5" class="input-field w-full px-4 py-2 rounded-lg">
+                            <input type="number" id="existingCredits" placeholder="e.g., 90" step="0.5" class="input-field">
                         </div>
                     </div>
                 </div>
-                <div class="glass-card p-6 lg:p-8">
-                    <h2 class="text-2xl font-bold text-gray-700 mb-4">Add New Course</h2>
-                    <div class="space-y-4">
-                        <div>
-                            <label for="courseName" class="block text-sm font-medium text-gray-600 mb-1">Course Name (Optional)</label>
-                            <input type="text" id="courseName" placeholder="e.g., Data Structures" class="input-field w-full px-4 py-2 rounded-lg">
+                
+                <div class="glass-card p-6">
+                    <div class="border-b border-gray-200 mb-4">
+                        <nav class="-mb-px flex space-x-4" id="courseTabs">
+                            <button class="tab-button active" data-target="newCourseTab">New Course</button>
+                            <button class="tab-button" data-target="retakeCourseTab">Retake</button>
+                        </nav>
+                    </div>
+
+                    <div id="newCourseTab" class="tab-content active">
+                        <div class="space-y-4">
+                            <div>
+                                <label for="courseName" class="block text-sm font-medium text-gray-600 mb-1">Course Name (Optional)</label>
+                                <input type="text" id="courseName" placeholder="e.g., Data Structures" class="input-field">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label for="courseCredits" class="block text-sm font-medium text-gray-600 mb-1">Credits</label>
+                                    <input type="number" id="courseCredits" placeholder="e.g., 3" min="0.5" step="0.5" class="input-field">
+                                </div>
+                                <div>
+                                    <label for="courseGrade" class="block text-sm font-medium text-gray-600 mb-1">Grade</label>
+                                    <select id="courseGrade" class="input-field">
+                                        <option>A</option><option>A-</option><option>B+</option><option>B</option><option>B-</option><option>C+</option><option>C</option><option>C-</option><option>D+</option><option>D</option><option>F</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button id="addCourseBtn" class="w-full btn btn-primary mt-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
+                                Add Course
+                            </button>
                         </div>
-                        <div>
-                            <label for="courseCredits" class="block text-sm font-medium text-gray-600 mb-1">Credits</label>
-                            <input type="number" id="courseCredits" placeholder="e.g., 3" min="0.5" step="0.5" class="input-field w-full px-4 py-2 rounded-lg">
+                    </div>
+
+                    <div id="retakeCourseTab" class="tab-content">
+                        <div class="space-y-4">
+                            <div>
+                                <label for="retakeCourseName" class="block text-sm font-medium text-gray-600 mb-1">Course Name (Optional)</label>
+                                <input type="text" id="retakeCourseName" placeholder="e.g., Economics" class="input-field">
+                            </div>
+                            <div class="grid grid-cols-3 gap-3">
+                                <div>
+                                    <label for="retakeCredits" class="block text-sm font-medium text-gray-600 mb-1">Credits</label>
+                                    <input type="number" id="retakeCredits" placeholder="3" min="0.5" step="0.5" class="input-field">
+                                </div>
+                                <div>
+                                    <label for="retakeOldGrade" class="block text-sm font-medium text-gray-600 mb-1">Old</label>
+                                    <select id="retakeOldGrade" class="input-field">
+                                        <option>F</option><option>D</option><option>D+</option><option>C-</option><option>C</option><option>C+</option><option>B-</option><option>B</option><option>B+</option><option>A-</option><option>A</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="retakeNewGrade" class="block text-sm font-medium text-gray-600 mb-1">New</label>
+                                    <select id="retakeNewGrade" class="input-field">
+                                        <option>A</option><option>A-</option><option>B+</option><option>B</option><option>B-</option><option>C+</option><option>C</option><option>C-</option><option>D+</option><option>D</option><option>F</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button id="addRetakeBtn" class="w-full btn btn-primary mt-2" style="background-color: var(--accent-secondary); box-shadow: 0 4px 15px 0 rgba(245, 158, 11, 0.3);">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 110 2H4a1 1 0 01-1-1V4a1 1 0 011-1zm10 8a1 1 0 011-1h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 111.885-.666A5.002 5.002 0 0014.001 13H11a1 1 0 01-1-1z" clip-rule="evenodd" /></svg>
+                                Add Retake
+                            </button>
                         </div>
-                        <div>
-                            <label for="courseGrade" class="block text-sm font-medium text-gray-600 mb-1">Grade</label>
-                            <select id="courseGrade" class="input-field w-full px-4 py-2 rounded-lg">
-                                <option>A</option><option>A-</option><option>B+</option><option>B</option><option>B-</option><option>C+</option><option>C</option><option>C-</option><option>D+</option><option>D</option><option>F</option>
-                            </select>
-                        </div>
-                        <button id="addCourseBtn" class="w-full btn-primary text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
-                            Add Course
-                        </button>
                     </div>
                 </div>
             </div>
 
             <!-- Right Column: Results and Course List -->
-            <div class="lg:col-span-3 space-y-8">
-                <div class="glass-card p-6 lg:p-8 flex flex-col items-center justify-center">
+            <div class="lg:col-span-3 space-y-6">
+                <div class="glass-card p-6 flex flex-col items-center justify-center">
                     <div class="final-cgpa-display">
                         <span id="cgpaResult" class="cgpa-value">0.00</span>
                         <span class="cgpa-label">Final CGPA</span>
                     </div>
-                    <button id="aiPlannerBtn" class="mt-6 btn-secondary text-white font-bold py-3 px-8 rounded-lg flex items-center justify-center gap-2">
+                    <button id="aiPlannerBtn" class="mt-6 btn btn-primary">
                         ✨ Get AI Study Plan
                     </button>
                 </div>
-                <div class="glass-card p-6 lg:p-8">
-                    <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-4 gap-4">
-                        <h2 class="text-2xl font-bold text-gray-700 text-center sm:text-left">New Courses Added</h2>
-                        <button id="clearAllBtn" class="btn-primary bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg text-sm self-center sm:self-auto" style="background-image: linear-gradient(to right, #ef4444, #dc2626);">Clear All</button>
+                <div class="glass-card p-6">
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-4 gap-3">
+                        <h2 class="text-xl font-bold text-gray-700 text-center sm:text-left">Current Semester</h2>
+                        <button id="clearAllBtn" class="btn btn-danger !py-2 !px-4 text-sm">Clear All</button>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="min-w-full" id="courseList">
-                            <thead>
+                            <thead class="bg-gray-50 rounded-t-lg">
                                 <tr>
-                                    <th class="p-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Course</th>
-                                    <th class="p-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Credits</th>
-                                    <th class="p-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Grade</th>
-                                    <th class="p-3 text-right text-sm font-semibold text-gray-600 uppercase tracking-wider">Action</th>
+                                    <th class="p-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Course</th>
+                                    <th class="p-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Credits</th>
+                                    <th class="p-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Grade</th>
+                                    <th class="p-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
                                 <tr id="placeholderRow">
-                                    <td colspan="4" class="p-12 text-center text-gray-500">
-                                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2z" /></svg>
-                                        <h3 class="mt-2 font-medium text-gray-800">No new courses</h3>
-                                        <p class="text-sm text-gray-500">Add a course to see it here.</p>
+                                    <td colspan="4" class="p-10 text-center text-gray-500">
+                                        <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2z" /></svg>
+                                        <h3 class="mt-2 font-medium text-gray-700">No courses added</h3>
+                                        <p class="text-sm text-gray-500">Add courses to see them here.</p>
                                     </td>
                                 </tr>
                             </tbody>
@@ -236,11 +282,11 @@
             </div>
         </div>
         
-        <footer class="text-center mt-12 pb-4">
-             <div class="glass-card inline-block p-4">
-                 <h3 class="font-semibold text-gray-700 mb-2">Grading System</h3>
-                 <div class="text-xs text-gray-600 grid grid-cols-5 sm:grid-cols-11 gap-x-4 gap-y-1">
-                     <span><strong>A</strong>: 4.00</span><span><strong>A-</strong>: 3.67</span><span><strong>B+</strong>: 3.33</span><span><strong>B</strong>: 3.00</span><span><strong>B-</strong>: 2.67</span><span><strong>C+</strong>: 2.33</span><span><strong>C</strong>: 2.00</span><span><strong>C-</strong>: 1.67</span><span><strong>D+</strong>: 1.33</span><span><strong>D</strong>: 1.00</span><span><strong>F</strong>: 0.00</span>
+        <footer class="text-center mt-8 pb-4">
+             <div class="glass-card inline-block p-3">
+                 <h3 class="font-semibold text-gray-700 mb-2 text-sm">UIU Grading System</h3>
+                 <div class="text-xs text-gray-600 grid grid-cols-4 sm:grid-cols-6 md:grid-cols-11 gap-x-3 gap-y-1">
+                     <span><b>A</b>: 4.00</span><span><b>A-</b>: 3.67</span><span><b>B+</b>: 3.33</span><span><b>B</b>: 3.00</span><span><b>B-</b>: 2.67</span><span><b>C+</b>: 2.33</span><span><b>C</b>: 2.00</span><span><b>C-</b>: 1.67</span><span><b>D+</b>: 1.33</span><span><b>D</b>: 1.00</span><span><b>F</b>: 0.00</span>
                  </div>
              </div>
         </footer>
@@ -248,7 +294,7 @@
     
     <!-- Modals -->
     <div id="alertModal" class="modal-backdrop">
-        <div class="modal-content text-center mx-auto">
+        <div class="modal-content text-center mx-auto max-w-sm">
             <h3 id="alertModalTitle" class="text-xl font-bold text-gray-800 mb-2"></h3>
             <p id="alertModalMessage" class="text-gray-600 mb-6"></p>
             <div id="alertModalActions" class="flex justify-center gap-4"></div>
@@ -256,12 +302,12 @@
     </div>
     
     <div id="aiPlanModal" class="modal-backdrop">
-        <div class="modal-content text-left mx-auto">
-            <div class="flex justify-between items-start mb-4 flex-shrink-0">
-                <h3 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-blue-500 pr-4">✨ Your AI Study Plan</h3>
-                <button id="closeAiModalBtn" class="text-gray-400 hover:text-gray-600">&times;</button>
+        <div class="modal-content text-left mx-auto max-w-2xl">
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-cyan-500 pr-4">✨ Your AI Study Plan</h3>
+                <button id="closeAiModalBtn" class="text-gray-400 hover:text-gray-600 text-3xl leading-none font-bold">&times;</button>
             </div>
-            <div id="aiPlanContent" class="prose max-w-none text-gray-700">
+            <div id="aiPlanContent" class="prose max-w-none text-gray-700 max-h-[60vh] overflow-y-auto pr-2">
                 <!-- AI content will be injected here -->
             </div>
         </div>
@@ -270,102 +316,118 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- DOM Elements ---
-            const addCourseBtn = document.getElementById('addCourseBtn');
-            const clearAllBtn = document.getElementById('clearAllBtn');
-            const aiPlannerBtn = document.getElementById('aiPlannerBtn');
-            const courseListBody = document.querySelector('#courseList tbody');
-            const cgpaResultEl = document.getElementById('cgpaResult');
-            const placeholderRow = document.getElementById('placeholderRow');
-            const existingCgpaInput = document.getElementById('existingCgpa');
-            const existingCreditsInput = document.getElementById('existingCredits');
+            const elements = {
+                addCourseBtn: document.getElementById('addCourseBtn'),
+                addRetakeBtn: document.getElementById('addRetakeBtn'),
+                clearAllBtn: document.getElementById('clearAllBtn'),
+                aiPlannerBtn: document.getElementById('aiPlannerBtn'),
+                courseListBody: document.querySelector('#courseList tbody'),
+                cgpaResultEl: document.getElementById('cgpaResult'),
+                placeholderRow: document.getElementById('placeholderRow'),
+                existingCgpaInput: document.getElementById('existingCgpa'),
+                existingCreditsInput: document.getElementById('existingCredits'),
+                courseTabs: document.getElementById('courseTabs'),
+                tabContents: document.querySelectorAll('.tab-content'),
+                alertModal: {
+                    el: document.getElementById('alertModal'),
+                    title: document.getElementById('alertModalTitle'),
+                    message: document.getElementById('alertModalMessage'),
+                    actions: document.getElementById('alertModalActions')
+                },
+                aiPlanModal: {
+                    el: document.getElementById('aiPlanModal'),
+                    content: document.getElementById('aiPlanContent'),
+                    closeBtn: document.getElementById('closeAiModalBtn')
+                }
+            };
 
             // --- State ---
             let courses = [];
             const gradePoints = {
-                'A': 4.00, 'A-': 3.67, 'B+': 3.33,
-                'B': 3.00, 'B-': 2.67, 'C+': 2.33,
-                'C': 2.00, 'C-': 1.67,
-                'D+': 1.33, 'D': 1.00, 'F': 0.00
+                'A': 4.00, 'A-': 3.67, 'B+': 3.33, 'B': 3.00, 'B-': 2.67, 
+                'C+': 2.33, 'C': 2.00, 'C-': 1.67, 'D+': 1.33, 'D': 1.00, 'F': 0.00
             };
 
-            // --- Modals ---
-            const alertModal = document.getElementById('alertModal');
-            const alertModalTitle = document.getElementById('alertModalTitle');
-            const alertModalMessage = document.getElementById('alertModalMessage');
-            const alertModalActions = document.getElementById('alertModalActions');
-            const aiPlanModal = document.getElementById('aiPlanModal');
-            const aiPlanContent = document.getElementById('aiPlanContent');
-            const closeAiModalBtn = document.getElementById('closeAiModalBtn');
-
+            // --- Modal Functions ---
             const showModal = (title, message, actions) => {
-                alertModalTitle.textContent = title;
-                alertModalMessage.textContent = message;
-                alertModalActions.innerHTML = '';
+                elements.alertModal.title.textContent = title;
+                elements.alertModal.message.innerHTML = message; // Use innerHTML for potential formatting
+                elements.alertModal.actions.innerHTML = '';
                 actions.forEach(action => {
                     const button = document.createElement('button');
                     button.textContent = action.text;
                     button.className = action.class;
                     button.onclick = () => {
-                        hideModal(alertModal);
+                        hideModal(elements.alertModal.el);
                         if(action.callback) action.callback();
                     };
-                    alertModalActions.appendChild(button);
+                    elements.alertModal.actions.appendChild(button);
                 });
-                alertModal.classList.add('show');
+                elements.alertModal.el.classList.add('show');
             };
 
             const hideModal = (modal) => modal.classList.remove('show');
-            closeAiModalBtn.addEventListener('click', () => hideModal(aiPlanModal));
-            
-            // --- FIX: Close modal when clicking on the backdrop ---
-            aiPlanModal.addEventListener('click', (e) => {
-                if (e.target === aiPlanModal) { // Check if the click is on the backdrop itself
-                    hideModal(aiPlanModal);
-                }
-            });
 
             // --- Core Functions ---
             const renderCourses = () => {
-                courseListBody.innerHTML = ''; 
+                elements.courseListBody.innerHTML = ''; 
                 if (courses.length === 0) {
-                    if (!courseListBody.contains(placeholderRow)) {
-                        courseListBody.appendChild(placeholderRow);
-                    }
+                    elements.courseListBody.appendChild(elements.placeholderRow);
                 } else {
                     courses.forEach((course, index) => {
                         const row = document.createElement('tr');
                         row.className = 'table-row transition-all duration-300';
+                        
+                        let gradeDisplay = '';
+                        let courseNameDisplay = course.name || `Course ${index + 1}`;
+                        
+                        if(course.isRetake) {
+                            gradeDisplay = `${course.oldGrade} → <strong class="text-teal-600">${course.newGrade}</strong>`;
+                            courseNameDisplay += ` <span class="retake-badge">Retake</span>`;
+                        } else {
+                            gradeDisplay = `<strong class="text-gray-700">${course.grade}</strong>`;
+                        }
+
                         row.innerHTML = `
-                            <td class="p-3 whitespace-nowrap text-sm font-medium text-gray-800">${course.name || `Course ${index + 1}`}</td>
-                            <td class="p-3 whitespace-nowrap text-sm text-gray-600">${course.credits}</td>
-                            <td class="p-3 whitespace-nowrap text-sm text-gray-600 font-semibold">${course.grade}</td>
+                            <td class="p-3 text-sm font-medium text-gray-800">${courseNameDisplay}</td>
+                            <td class="p-3 text-sm text-gray-600 text-center">${course.credits}</td>
+                            <td class="p-3 text-sm text-gray-600">${gradeDisplay}</td>
                             <td class="p-3 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-red-500 hover:text-red-700 font-bold remove-btn" data-index="${index}">Remove</button>
+                                <button class="text-red-500 hover:text-red-700 font-semibold remove-btn" data-index="${index}">Remove</button>
                             </td>
                         `;
-                        courseListBody.appendChild(row);
+                        elements.courseListBody.appendChild(row);
                     });
                 }
                 calculateCGPA();
             };
 
             const calculateCGPA = () => {
-                let newTotalCredits = courses.reduce((sum, course) => sum + course.credits, 0);
-                let newTotalGradePoints = courses.reduce((sum, course) => sum + (course.credits * gradePoints[course.grade]), 0);
-
-                const existingCgpa = parseFloat(existingCgpaInput.value) || 0;
-                const existingCredits = parseFloat(existingCreditsInput.value) || 0;
-                const existingTotalGradePoints = existingCgpa * existingCredits;
-
-                const finalTotalCredits = existingCredits + newTotalCredits;
-                const finalTotalGradePoints = existingTotalGradePoints + newTotalGradePoints;
-
-                const cgpa = finalTotalCredits === 0 ? 0 : finalTotalGradePoints / finalTotalCredits;
-                cgpaResultEl.textContent = isNaN(cgpa) ? '0.00' : cgpa.toFixed(2);
+                const existingCgpa = parseFloat(elements.existingCgpaInput.value) || 0;
+                let existingCredits = parseFloat(elements.existingCreditsInput.value) || 0;
                 
-                cgpaResultEl.classList.remove('pop-in');
-                void cgpaResultEl.offsetWidth;
-                cgpaResultEl.classList.add('pop-in');
+                if (existingCredits < 0) existingCredits = 0;
+
+                let totalCredits = existingCredits;
+                let totalGradePoints = existingCgpa * existingCredits;
+
+                courses.forEach(course => {
+                    if (course.isRetake) {
+                        const oldPoints = gradePoints[course.oldGrade] * course.credits;
+                        const newPoints = gradePoints[course.newGrade] * course.credits;
+                        totalGradePoints = totalGradePoints - oldPoints + newPoints;
+                    } else {
+                        totalCredits += course.credits;
+                        totalGradePoints += gradePoints[course.grade] * course.credits;
+                    }
+                });
+
+                const cgpa = totalCredits === 0 ? 0 : totalGradePoints / totalCredits;
+                elements.cgpaResultEl.textContent = isNaN(cgpa) ? '0.00' : cgpa.toFixed(2);
+                
+                elements.cgpaResultEl.classList.remove('pop-in');
+                void elements.cgpaResultEl.offsetWidth;
+                elements.cgpaResultEl.classList.add('pop-in');
             };
 
             const handleAddCourse = () => {
@@ -374,12 +436,17 @@
                 const gradeInput = document.getElementById('courseGrade');
                 const credits = parseFloat(creditsInput.value);
 
-                if (isNaN(credits) || credits <= 0) {
-                    showModal('Invalid Input', 'Please enter a valid number of credits.', [{text: 'OK', class: 'btn-primary text-white font-bold py-2 px-6 rounded-lg'}]);
+                if (!credits || credits <= 0) {
+                    showModal('Invalid Input', 'Please enter a valid number of credits.', [{text: 'OK', class: 'btn btn-primary'}]);
                     return;
                 }
 
-                courses.push({ name: nameInput.value.trim(), credits, grade: gradeInput.value });
+                courses.push({ 
+                    name: nameInput.value.trim(), 
+                    credits, 
+                    grade: gradeInput.value,
+                    isRetake: false 
+                });
                 
                 nameInput.value = '';
                 creditsInput.value = '';
@@ -387,66 +454,78 @@
                 renderCourses();
             };
             
-            const handleRemoveCourse = (event) => {
-                if (event.target.classList.contains('remove-btn')) {
-                    const index = parseInt(event.target.dataset.index, 10);
-                    courses.splice(index, 1);
-                    renderCourses();
+            const handleAddRetakeCourse = () => {
+                const nameInput = document.getElementById('retakeCourseName');
+                const creditsInput = document.getElementById('retakeCredits');
+                const oldGradeInput = document.getElementById('retakeOldGrade');
+                const newGradeInput = document.getElementById('retakeNewGrade');
+                const credits = parseFloat(creditsInput.value);
+
+                if (!credits || credits <= 0) {
+                    showModal('Invalid Input', 'Please enter valid credits for the retake course.', [{text: 'OK', class: 'btn btn-primary'}]);
+                    return;
                 }
+                 if (oldGradeInput.value === newGradeInput.value) {
+                     showModal('Heads Up!', 'The old and new grades are the same. This will not affect your CGPA, but adding it for record-keeping.', [{text: 'OK', class: 'btn btn-primary'}]);
+                 }
+
+                courses.push({
+                    name: nameInput.value.trim(),
+                    credits,
+                    oldGrade: oldGradeInput.value,
+                    newGrade: newGradeInput.value,
+                    isRetake: true
+                });
+
+                nameInput.value = '';
+                creditsInput.value = '';
+                oldGradeInput.selectedIndex = 0;
+                newGradeInput.selectedIndex = 0;
+                renderCourses();
             };
 
             const handleClearAll = () => {
                 if(courses.length === 0) return;
                 showModal(
                     'Confirm Clear', 
-                    'Are you sure you want to clear all new courses?', 
+                    'Are you sure you want to clear all added courses?', 
                     [
-                        {text: 'Cancel', class: 'bg-gray-200 text-gray-800 font-bold py-2 px-6 rounded-lg'},
-                        {text: 'Confirm', class: 'bg-red-500 text-white font-bold py-2 px-6 rounded-lg', callback: () => {
+                        {text: 'Cancel', class: 'btn bg-gray-200 text-gray-800'},
+                        {text: 'Confirm', class: 'btn btn-danger', callback: () => {
                             courses = [];
                             renderCourses();
                         }}
                     ]
                 );
             };
-
+            
             // --- Gemini API Function ---
             const getAIStudyPlan = async () => {
                 if (courses.length === 0) {
-                    showModal('No Courses', 'Please add at least one new course to get a study plan.', [{text: 'OK', class: 'btn-primary text-white font-bold py-2 px-6 rounded-lg'}]);
+                    showModal('No Courses', 'Please add at least one course to get a study plan.', [{text: 'OK', class: 'btn btn-primary'}]);
                     return;
                 }
 
-                aiPlanContent.innerHTML = '<div class="flex justify-center items-center p-8"><div class="spinner"></div><p class="ml-4">Generating your plan...</p></div>';
-                aiPlanModal.classList.add('show');
+                elements.aiPlanModal.content.innerHTML = '<div class="flex justify-center items-center p-8"><div class="spinner"></div><p class="ml-4">Generating your plan...</p></div>';
+                elements.aiPlanModal.el.classList.add('show');
 
-                const finalCgpa = cgpaResultEl.textContent;
-                const courseDetails = courses.map(c => `- ${c.name || 'Unnamed Course'}: ${c.credits} credits, Grade: ${c.grade}`).join('\n');
+                const finalCgpa = elements.cgpaResultEl.textContent;
+                const newCourses = courses.filter(c => !c.isRetake);
+                const retakeCourses = courses.filter(c => c.isRetake);
 
-                const prompt = `
-                    You are an expert academic advisor for a student at United International University (UIU).
-                    The student has just calculated their new CGPA based on their recent semester.
+                let courseDetails = '';
+                if(newCourses.length > 0) {
+                    courseDetails += 'New courses this semester:\n' + newCourses.map(c => `- ${c.name || 'Unnamed Course'}: ${c.credits} credits, Grade: ${c.grade}`).join('\n');
+                }
+                if(retakeCourses.length > 0) {
+                     courseDetails += '\n\nRetaken courses this semester:\n' + retakeCourses.map(c => `- ${c.name || 'Unnamed Course'}: ${c.credits} credits, Grade changed from ${c.oldGrade} to ${c.newGrade}`).join('\n');
+                }
 
-                    Here is their data:
-                    - Previous CGPA: ${existingCgpaInput.value || 'Not provided'}
-                    - Previous Credits: ${existingCreditsInput.value || 'Not provided'}
-                    - Final Calculated CGPA: ${finalCgpa}
-                    - New courses this semester:
-                    ${courseDetails}
-
-                    Based on this information, provide a personalized, encouraging, and actionable study plan. Structure your response in Markdown format with the following sections:
-                    1.  **Overall Performance Analysis:** Start with a brief, motivational analysis of their new CGPA.
-                    2.  **Priority Subjects:** Identify 1-3 subjects where the student could improve the most (based on lower grades like C, D, F).
-                    3.  **Actionable Study Strategies:** For each priority subject, provide 2-3 specific and creative study tips. (e.g., "For Data Structures, try visualizing algorithms on a whiteboard" instead of just "study more").
-                    4.  **Sample Weekly Schedule:** Create a simple, balanced weekly study schedule in a Markdown table, allocating time for the new courses.
-
-                    Keep the tone positive and empowering.
-                `;
+                const prompt = `You are an expert academic advisor for a student at United International University (UIU). The student has just calculated their new CGPA based on their recent semester, which included new courses and possibly some retake courses. Here is their data: - Previous CGPA: ${elements.existingCgpaInput.value || 'Not provided'} - Previous Credits Completed: ${elements.existingCreditsInput.value || 'Not provided'} - Final Calculated CGPA: ${finalCgpa} ${courseDetails} Based on this information, provide a personalized, encouraging, and actionable study plan. Structure your response in Markdown format with the following sections: 1.  **Overall Performance Analysis:** Start with a brief, motivational analysis of their new CGPA, acknowledging the effort on both new and retaken courses. 2.  **Priority Subjects & Key Successes:** Identify 1-2 subjects where the student could still improve (based on lower new grades). Also, celebrate any successful retakes (e.g., a grade of 'C' improving to an 'A'). 3.  **Actionable Study Strategies:** For each priority subject, provide 2-3 specific and creative study tips. For successful retakes, ask the student to reflect on what strategies worked and how they can apply them to other courses. 4.  **Sample Weekly Schedule:** Create a simple, balanced weekly study schedule in a Markdown table, allocating time for future studies based on the semester's workload. Keep the tone positive and empowering.`;
 
                 const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
                 const payload = { contents: chatHistory };
-                // --- FIX: Use environment-managed API key ---
-                const apiKey = "AIzaSyAOhRLlWI6tLP34lFMxLCJD8-aNVKhKQQU"; 
+                const apiKey = "AIzaSyAOhRLlWI6tLP34lFMxLCJD8-aNVKhKQQU"; // API key is handled by the environment
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
                 try {
@@ -458,47 +537,60 @@
                     const result = await response.json();
                     
                     if (result.candidates && result.candidates[0].content.parts[0].text) {
-                        // A simple markdown to HTML converter
                         let htmlContent = result.candidates[0].content.parts[0].text;
+                        // Simple Markdown to HTML conversion
                         htmlContent = htmlContent
                             .replace(/### (.*)/g, '<h3 class="text-lg font-bold mt-4 mb-2">$1</h3>')
                             .replace(/## (.*)/g, '<h2 class="text-xl font-bold mt-6 mb-3">$1</h2>')
                             .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
                             .replace(/\* ([^*]+)/g, '<li class="ml-5 list-disc">$1</li>')
                             .replace(/\|(.+)\|/g, (match, p1) => {
-                                if (p1.includes('---')) return ''; // ignore table header separator
+                                if (p1.includes('---')) return '';
                                 return `<tr>${p1.split('|').map(s => `<td class="p-2 border">${s.trim()}</td>`).join('')}</tr>`
                             })
-                            .replace(/(<\/td><\/tr>)/g,'</tr>') // clean up empty cells from split
+                            .replace(/(<\/td><\/tr>)/g,'</tr>')
                             .replace(/(<tr>.*<\/tr>)+/g, (table) => {
-                                // Assume first row is header
                                 const firstRow = table.match(/<tr>.*?<\/tr>/)[0];
-                                const header = firstRow.replace(/<td/g, '<th').replace(/<\/td>/g, '</th>');
+                                const header = firstRow.replace(/<td/g, '<th class="bg-gray-100"').replace(/<\/td>/g, '</th>');
                                 const body = table.substring(firstRow.length);
                                 return `<table class="w-full text-left border-collapse mt-4"><thead>${header}</thead><tbody>${body}</tbody></table>`
                             })
                             .replace(/\n/g, '<br>');
-
-
-                        aiPlanContent.innerHTML = htmlContent;
+                        elements.aiPlanModal.content.innerHTML = htmlContent;
                     } else {
-                        aiPlanContent.innerHTML = '<p class="text-red-500">Sorry, something went wrong while generating the plan. Please try again.</p>';
-                        console.error("Unexpected API response structure:", result);
+                        elements.aiPlanModal.content.innerHTML = '<p class="text-red-500">Sorry, something went wrong while generating the plan. Please try again.</p>';
                     }
                 } catch (error) {
-                    aiPlanContent.innerHTML = `<p class="text-red-500">Failed to connect to the AI service. Please check your connection and try again.</p><p class="text-xs text-gray-500 mt-2">${error}</p>`;
-                    console.error("Error fetching AI plan:", error);
+                    elements.aiPlanModal.content.innerHTML = `<p class="text-red-500">Failed to connect to the AI service. Please check your connection and try again.</p>`;
                 }
             };
 
             // --- Event Listeners ---
-            addCourseBtn.addEventListener('click', handleAddCourse);
-            clearAllBtn.addEventListener('click', handleClearAll);
-            aiPlannerBtn.addEventListener('click', getAIStudyPlan);
-            courseListBody.addEventListener('click', handleRemoveCourse);
-            existingCgpaInput.addEventListener('input', calculateCGPA);
-            existingCreditsInput.addEventListener('input', calculateCGPA);
-
+            elements.addCourseBtn.addEventListener('click', handleAddCourse);
+            elements.addRetakeBtn.addEventListener('click', handleAddRetakeCourse);
+            elements.clearAllBtn.addEventListener('click', handleClearAll);
+            elements.aiPlannerBtn.addEventListener('click', getAIStudyPlan);
+            elements.courseListBody.addEventListener('click', (e) => {
+                if (e.target.classList.contains('remove-btn')) {
+                    const index = parseInt(e.target.dataset.index, 10);
+                    courses.splice(index, 1);
+                    renderCourses();
+                }
+            });
+            elements.existingCgpaInput.addEventListener('input', calculateCGPA);
+            elements.existingCreditsInput.addEventListener('input', calculateCGPA);
+            elements.courseTabs.addEventListener('click', (e) => {
+                if (e.target.classList.contains('tab-button')) {
+                    elements.courseTabs.querySelector('.active').classList.remove('active');
+                    e.target.classList.add('active');
+                    elements.tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(e.target.dataset.target).classList.add('active');
+                }
+            });
+            elements.aiPlanModal.closeBtn.addEventListener('click', () => hideModal(elements.aiPlanModal.el));
+            elements.aiPlanModal.el.addEventListener('click', (e) => { if (e.target === elements.aiPlanModal.el) hideModal(elements.aiPlanModal.el); });
+            elements.alertModal.el.addEventListener('click', (e) => { if (e.target === elements.alertModal.el) hideModal(elements.alertModal.el); });
+            
             renderCourses();
         });
     </script>
